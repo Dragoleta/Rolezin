@@ -1,6 +1,6 @@
 from fastapi import Body, Depends, FastAPI
 
-from .context.groups import groups_router
+from .context.groups_context import groups_router
 from .context.user_context import user_router
 from .helpers.returnTypes import Success
 from .infra.database import get_test_db

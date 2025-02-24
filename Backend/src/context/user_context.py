@@ -6,7 +6,7 @@ from ..helpers.returnTypes import Failure, Success
 from ..infra.database import get_test_db
 from ..infra.models.group import GroupModel
 from ..infra.models.user import UserAuth, UserModel
-from ..repository.user_repo import get_user_by_name, register_user
+from ..repository.user_repo import get_user_by_name, register_user, update_calendar
 
 user_router = APIRouter()
 
@@ -54,8 +54,15 @@ async def user_info_polished(db=Depends(get_test_db)):
 
 
 @user_router.put("/update_calendar")
-async def update_user_calendar(db=Depends(get_test_db)):
-    pass
+async def update_user_calendar(
+    dates: list[str], user_id: str, db=Depends(get_test_db)
+) -> Success | Failure:
+    assert dates != None, "Must have a date value"
+    assert user_id != None, "Must have a user id value"
+
+    result = await update_calendar(dates=dates, user_id=user_id, db=db)
+
+    return result
 
 
 @user_router.put("/update")
